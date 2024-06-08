@@ -1,29 +1,30 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 
 export default function Home() {
-  const [message, setMessage] = useState("");
+  useEffect(() => {
+    // connect to websocket
+    const socket = io("http://localhost:5050");
 
-  useEffect(() => {}, [message]);
-  function handleEmitMessage() {
-    // emit message to web socket
-  }
+    socket.on("connect", () => {
+      console.log("Connected to socket.io server.");
+      socket.send("Connecting to Server.");
+    });
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setMessage(e.target.value);
-  }
+    socket.on("message", (message) => {
+      console.log(`Message from server: ${message}`);
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.io server.");
+    });
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <input
-        style={{ width: "200px" }}
-        placeholder="enter message"
-        onChange={(e) => handleChange(e)}
-        value={message}
-      />
+    // clean up
+    return () => {
+      socket.close();
+    };
+  }, []);
 
-      {message}
-    </div>
-  );
+  return <div>test</div>;
 }
