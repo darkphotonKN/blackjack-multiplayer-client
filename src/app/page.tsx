@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { Deck, initalizeDeck, shuffleDeck } from "./game/cards";
 
 export default function Home() {
+  // initialize deck
+  const [deck, setDeck] = useState<Deck>(initalizeDeck());
+
+  console.log("deck:", deck);
+
   useEffect(() => {
     // connect to websocket
     const socket = io("http://localhost:5050");
@@ -20,11 +26,18 @@ export default function Home() {
       console.log("Disconnected from Socket.io server.");
     });
 
+    // shuffle initial deck
+    setDeck((prevDeck) => shuffleDeck(prevDeck));
+
     // clean up
     return () => {
       socket.close();
     };
   }, []);
 
-  return <div>test</div>;
+  return (
+    <div>
+      <h3>Blackjack</h3>
+    </div>
+  );
 }
