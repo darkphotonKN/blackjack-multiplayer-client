@@ -1,35 +1,8 @@
-// Suit Possibilties and Type Definiton
-const suits = {
-  CLUBS: "clubs",
-  SPADES: "spades",
-  HEARTS: "hearts",
-  DIAMONDS: "diamonds",
-} as const;
-type Suit = (typeof suits)[keyof typeof suits];
-
-// Card values Possibilties and Type Definiton
-const values = [
-  "A",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "J",
-  "Q",
-  "K",
-] as const;
-type Value = (typeof values)[number];
-
-export type Deck = { suit: Suit; value: Value }[];
+import { Card, Deck, Hand, values, suits } from "@/types/game/card.types";
 
 // initialize deck
 export function initalizeDeck(): Deck {
-  let deck: Deck = [];
+  let deck: Card[] = [];
 
   // create deck
 
@@ -39,12 +12,15 @@ export function initalizeDeck(): Deck {
     }
   }
 
-  return deck;
+  if (deck.length != 52) {
+    throw Error("Deck length is not 52!");
+  }
+  return deck as Deck;
 }
 
 // shuffing using Phisher-Yates Algorithm
 export function shuffleDeck(deck: Deck): Deck {
-  const copiedDeck = [...deck];
+  const copiedDeck = [...deck] as Deck;
 
   // loop from highest number to lowest
   for (let i = copiedDeck.length - 1; i > 0; i--) {
@@ -57,4 +33,16 @@ export function shuffleDeck(deck: Deck): Deck {
   }
 
   return copiedDeck;
+}
+
+// draw card
+export function drawCard(
+  deck: Deck,
+): { drawnCard: Card; remainingDeck: Deck } | undefined {
+  // check if deck is empty before drawing
+  if (deck.length < 1) {
+    return;
+  }
+  const [drawnCard, ...remainingDeck] = deck;
+  return { drawnCard, remainingDeck };
 }

@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { Deck, initalizeDeck, shuffleDeck } from "./game/cards";
+import useCardManager from "../hooks/useCardManager";
+import Card from "../components/Card";
 
 export default function Home() {
-  // initialize deck
-  const [deck, setDeck] = useState<Deck>(initalizeDeck());
+  const { deck, playersHand, dealerHand } = useCardManager();
 
   console.log("deck:", deck);
+  console.log("dealersCard:", dealerHand);
 
   useEffect(() => {
     // connect to websocket
@@ -26,9 +27,7 @@ export default function Home() {
       console.log("Disconnected from Socket.io server.");
     });
 
-    // shuffle initial deck
-    setDeck((prevDeck) => shuffleDeck(prevDeck));
-
+    // if there are cards still remaining we draw the second one
     // clean up
     return () => {
       socket.close();
@@ -38,6 +37,12 @@ export default function Home() {
   return (
     <div>
       <h3>Blackjack</h3>
+
+      {/* Players Hand */}
+
+      {/* Dealers Hand */}
+      <div>Dealer </div>
+      {dealerHand && dealerHand.map((card) => <Card card={card} />)}
     </div>
   );
 }
