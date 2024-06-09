@@ -40,13 +40,14 @@ export default function Home() {
     <div>
       <h3>Blackjack</h3>
 
-      {/* players hand */}
-      <div className={styles.playerTitle}>Player </div>
+      {/* Dealers Hand */}
+      <div className={styles.playerTitle}>DEALER</div>
       <div className={styles.cardArea}>
         {dealerHand && dealerHand.map((card) => <Card card={card} />)}
       </div>
-      {/* Dealers Hand */}
-      <div className={styles.playerTitle}>Dealer </div>
+
+      {/* players hand */}
+      <div className={styles.playerTitle}>PLAYER</div>
       <div className={styles.cardArea}>
         {dealerHand && dealerHand.map((card) => <Card card={card} />)}
       </div>

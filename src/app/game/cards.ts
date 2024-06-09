@@ -35,7 +35,9 @@ export function shuffleDeck(deck: Deck): Deck {
   return copiedDeck;
 }
 
-// draw card
+/**
+ * @test draws a card and returns it and the remaining deck if any cards are remaining.
+ */
 export function drawCard(
   deck: Deck,
 ): { drawnCard: Card; remainingDeck: Deck } | undefined {

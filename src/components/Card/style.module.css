@@ -1,20 +1,20 @@
 .cardWrapper {
   display: flex;
   flex-direction: column;
-  border: 1px solid #1a1a1a;
+  border: 2px solid #1a1a1a;
   padding: 10px;
-  height: 100px;
-  width: 80px;
+  height: 60px;
+  width: 35px;
+  align-items: center;
   justify-content: center;
   border-radius: 4px;
 }
 
 .suit {
-  font-size: 18px;
-  font-weight: 400;
+  margin-bottom: 10px;
 }
 
 .cardValue {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
 }
