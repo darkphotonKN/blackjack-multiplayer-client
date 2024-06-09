@@ -5,6 +5,8 @@ import { io } from "socket.io-client";
 import useCardManager from "../hooks/useCardManager";
 import Card from "../components/Card";
 
+import styles from "./page.module.css";
+
 export default function Home() {
   const { deck, playersHand, dealerHand } = useCardManager();
 
@@ -38,11 +40,16 @@ export default function Home() {
     <div>
       <h3>Blackjack</h3>
 
-      {/* Players Hand */}
-
+      {/* players hand */}
+      <div className={styles.playerTitle}>Player </div>
+      <div className={styles.cardArea}>
+        {dealerHand && dealerHand.map((card) => <Card card={card} />)}
+      </div>
       {/* Dealers Hand */}
-      <div>Dealer </div>
-      {dealerHand && dealerHand.map((card) => <Card card={card} />)}
+      <div className={styles.playerTitle}>Dealer </div>
+      <div className={styles.cardArea}>
+        {dealerHand && dealerHand.map((card) => <Card card={card} />)}
+      </div>
     </div>
   );
 }
