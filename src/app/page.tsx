@@ -6,12 +6,10 @@ import useCardManager from "../hooks/useCardManager";
 import Card from "../components/Card";
 
 import styles from "./page.module.css";
+import Image from "next/image";
 
 export default function Home() {
   const { deck, playersHand, dealerHand } = useCardManager();
-
-  console.log("deck:", deck);
-  console.log("dealersCard:", dealerHand);
 
   useEffect(() => {
     // connect to websocket
@@ -38,19 +36,58 @@ export default function Home() {
 
   return (
     <div>
-      <h3>Blackjack</h3>
+      <h3>BLACKJACK</h3>
+      <Image
+        src={"/images/complex-deco.png"}
+        alt="title-deco"
+        width={50}
+        height="30"
+      />
 
       {/* Dealers Hand */}
-      <div className={styles.playerTitle}>DEALER</div>
+      <div className={styles.titleWrapper}>
+        <Image
+          src={"/images/star-deco.png"}
+          alt="title-deco"
+          width={40}
+          height="20"
+        />
+        <div className={styles.playerTitle}>DEALER</div>
+        <Image
+          src={"/images/star-deco.png"}
+          alt="title-deco"
+          width={40}
+          height="20"
+        />
+      </div>
+
       <div className={styles.cardArea}>
         {dealerHand && dealerHand.map((card) => <Card card={card} />)}
       </div>
 
       {/* players hand */}
-      <div className={styles.playerTitle}>PLAYER</div>
-      <div className={styles.cardArea}>
-        {dealerHand && dealerHand.map((card) => <Card card={card} />)}
-      </div>
+      {playersHand?.map((playerHand) => (
+        <div>
+          <div className={styles.titleWrapper}>
+            <Image
+              src={"/images/simple-deco.png"}
+              alt="title-deco"
+              width={40}
+              height="20"
+            />
+            <div className={styles.playerTitle}>PLAYER I</div>
+            <Image
+              src={"/images/simple-deco.png"}
+              alt="title-deco"
+              width={40}
+              height="20"
+            />
+          </div>
+          <div className={styles.cardArea}>
+            {playerHand && playerHand.map((card) => <Card card={card} />)}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

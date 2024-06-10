@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { drawCard, initalizeDeck, shuffleDeck } from "../app/game/cards";
+import { drawCard, initalizeDeck, shuffleDeck } from "../game/cards";
 import { Hand } from "../types/game/card.types";
 
 const useCardManager = () => {
@@ -14,30 +14,53 @@ const useCardManager = () => {
   // setup inital deck and hands
   useEffect(() => {
     // setup dealer's cards
-    const drawnCardAndDeck = drawCard(deck);
-    if (drawnCardAndDeck) {
-      const { drawnCard, remainingDeck } = drawnCardAndDeck;
+    const { drawnCard: firstDrawnCard, remainingDeck } = drawCard(deck) || {};
 
-      const drawnCardAndRemainingDeck = drawCard(remainingDeck);
-      if (drawnCardAndRemainingDeck) {
-        const {
-          drawnCard: secondDrawnCard,
-          remainingDeck: remainingDeckDrawnTwo,
-        } = drawnCardAndRemainingDeck;
+    if (!remainingDeck) {
+      throw new Error("Deck has no remaining cards");
+    }
 
-        if (drawnCard && secondDrawnCard) {
-          setDealerHand([drawnCard, secondDrawnCard]);
-        }
+    const { drawnCard: secondDrawnCard, remainingDeck: remainingDeckSecond } =
+      drawCard(remainingDeck) || {};
 
-        // update remaining deck
-        if (remainingDeckDrawnTwo) {
-          setDeck(remainingDeckDrawnTwo);
-        } else {
-          // reset game
-        }
-      }
+    if (!remainingDeckSecond) {
+      throw new Error("Deck has no remaining cards");
+    }
+
+    const { drawnCard: thirdDrawnCard, remainingDeck: remainingDeckThird } =
+      drawCard(remainingDeckSecond) || {};
+
+    if (!remainingDeckThird) {
+      throw new Error("Deck has nor emaining cards");
+    }
+    const { drawnCard: fourthDrawnCard, remainingDeck: remainingDeckFourth } =
+      drawCard(remainingDeckThird) || {};
+
+    if (
+      firstDrawnCard &&
+      secondDrawnCard &&
+      thirdDrawnCard &&
+      fourthDrawnCard &&
+      remainingDeckFourth
+    ) {
+      // set player's cards
+      const firstPlayerHand = [secondDrawnCard, fourthDrawnCard] as Hand;
+
+      setPlayerHand([firstPlayerHand]);
+
+      // set hosts's cards
+      setDealerHand([firstDrawnCard, thirdDrawnCard]);
+
+      // update remaining deck
+      setDeck(remainingDeckFourth);
     }
   }, []);
+
+  console.log("deck:", deck);
+
+  console.log("playersHand:", playersHand);
+
+  console.log("dealerHand:", dealerHand);
 
   return { deck, dealerHand, playersHand };
 };

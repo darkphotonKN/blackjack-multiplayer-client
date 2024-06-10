@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
+/* Set default font settings for the body */
+body {
+  font-family: "Lora", serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #f5deb3;
+  color: black;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  height: 100vh;
+  text-align: center;
+}
+
+h3 {
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+/* Set a smooth transition for all elements */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Box-sizing rule to include padding and border in element’s total width and height */
+html {
+  box-sizing: border-box;
+}
+
+/* Ensure images and videos scale with their parent */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Ensure buttons and form elements inherit font */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Primary App Wrapper Layout */
+
+.app-wrapper {
+  padding: 40px 80px;
+}

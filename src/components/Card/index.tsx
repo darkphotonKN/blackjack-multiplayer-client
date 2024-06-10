@@ -29,8 +29,8 @@ const CardComponent = ({ card }: CardProps) => {
 				className={styles.suit}
 				src={renderIconRoute(card.suit)}
 				alt={card.suit}
-				width="22"
-				height="22"
+				width="23"
+				height="23"
 			/>
 			<div className={styles.cardValue}> {card.value}</div>
 		</div>
