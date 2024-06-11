@@ -5,6 +5,7 @@
 
 .cardArea {
   display: flex;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -13,4 +14,9 @@
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+}
+
+.playerArea {
+  gap: 20px;
+  display: flex;
 }

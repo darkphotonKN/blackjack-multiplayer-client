@@ -46,7 +46,7 @@ const useCardManager = () => {
       // set player's cards
       const firstPlayerHand = [secondDrawnCard, fourthDrawnCard] as Hand;
 
-      setPlayerHand([firstPlayerHand]);
+      setPlayerHand([firstPlayerHand, firstPlayerHand]);
 
       // set hosts's cards
       setDealerHand([firstDrawnCard, thirdDrawnCard]);

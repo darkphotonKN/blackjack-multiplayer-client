@@ -7,6 +7,7 @@ import Card from "../components/Card";
 
 import styles from "./page.module.css";
 import Image from "next/image";
+import { romanNumeralMapping } from "../data/mapping";
 
 export default function Home() {
   const { deck, playersHand, dealerHand } = useCardManager();
@@ -66,28 +67,37 @@ export default function Home() {
       </div>
 
       {/* players hand */}
-      {playersHand?.map((playerHand) => (
-        <div>
-          <div className={styles.titleWrapper}>
-            <Image
-              src={"/images/simple-deco.png"}
-              alt="title-deco"
-              width={40}
-              height="20"
-            />
-            <div className={styles.playerTitle}>PLAYER I</div>
-            <Image
-              src={"/images/simple-deco.png"}
-              alt="title-deco"
-              width={40}
-              height="20"
-            />
+      <div className={styles.playerArea}>
+        {playersHand?.map((playerHand, index) => (
+          <div>
+            <div className={styles.titleWrapper}>
+              <Image
+                src={"/images/simple-deco.png"}
+                alt="title-deco"
+                width={40}
+                height="20"
+              />
+              <div className={styles.playerTitle}>
+                PLAYER{" "}
+                {
+                  romanNumeralMapping[
+                    (index + 1).toString() as keyof typeof romanNumeralMapping
+                  ]
+                }
+              </div>
+              <Image
+                src={"/images/simple-deco.png"}
+                alt="title-deco"
+                width={40}
+                height="20"
+              />
+            </div>
+            <div className={styles.cardArea}>
+              {playerHand && playerHand.map((card) => <Card card={card} />)}
+            </div>
           </div>
-          <div className={styles.cardArea}>
-            {playerHand && playerHand.map((card) => <Card card={card} />)}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
