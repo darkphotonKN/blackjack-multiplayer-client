@@ -10,7 +10,7 @@ import { romanNumeralMapping } from "../data/mapping";
 import useWebsocket from "../hooks/useWebsocket";
 
 export default function Home() {
-  const websocket = useWebsocket();
+  const ws = useWebsocket(); // connect to websocket and set up clean up
   const { deck, playersHand, dealerHand } = useCardManager();
 
   return (
