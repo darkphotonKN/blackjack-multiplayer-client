@@ -18,7 +18,9 @@ export function initalizeDeck(): Deck {
   return deck as Deck;
 }
 
-// shuffing using Phisher-Yates Algorithm
+/**
+ * @description Shuffles a deck using Phisher-Yates Algorithm
+ */
 export function shuffleDeck(deck: Deck): Deck {
   const copiedDeck = [...deck] as Deck;
 
@@ -36,7 +38,7 @@ export function shuffleDeck(deck: Deck): Deck {
 }
 
 /**
- * @test draws a card and returns it and the remaining deck if any cards are remaining.
+ * @description Draws a card and returns it and the remaining deck if any cards are remaining.
  */
 export function drawCard(
   deck: Deck,

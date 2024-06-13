@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import useCardManager from "../hooks/useCardManager";
 import Card from "../components/Card";
 
@@ -8,10 +7,25 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { romanNumeralMapping } from "../data/mapping";
 import useWebsocket from "../hooks/useWebsocket";
+import { encodeAction } from "../util/dataTransfer";
+import { useAppSelector } from "../state/store";
 
 export default function Home() {
-  const ws = useWebsocket(); // connect to websocket and set up clean up
-  const { deck, playersHand, dealerHand } = useCardManager();
+  const clientId = useAppSelector((state) => state.client).id;
+  const { socket } = useWebsocket(); // connect to websocket and set up clean up
+  const { playersHand, dealerHand } = useCardManager();
+
+  function handleMove() {
+    const actionType = 0x03;
+    const actionData = "DEAL";
+
+    if (clientId && socket) {
+      // encode data into a Buffer before sending
+      const encodedData = encodeAction(clientId, actionType, actionData);
+      // send to server via socket
+      socket?.send(encodedData);
+    }
+  }
 
   return (
     <div>
@@ -42,7 +56,9 @@ export default function Home() {
 
       <div className={styles.cardArea}>
         {dealerHand &&
-          dealerHand.map((card, index) => <Card key={index} card={card} />)}
+          dealerHand.map((card, index) => (
+            <Card key={index} card={card} handleClick={handleMove} />
+          ))}
       </div>
 
       {/* players hand */}
@@ -60,7 +76,7 @@ export default function Home() {
                 PLAYER{" "}
                 {
                   romanNumeralMapping[
-                  (index + 1).toString() as keyof typeof romanNumeralMapping
+                    (index + 1).toString() as keyof typeof romanNumeralMapping
                   ]
                 }
               </div>
@@ -74,12 +90,14 @@ export default function Home() {
             <div className={styles.cardArea}>
               {playerHand &&
                 playerHand.map((card, index) => (
-                  <Card key={index} card={card} />
+                  <Card key={index} card={card} handleClick={handleMove} />
                 ))}
             </div>
           </div>
         ))}
       </div>
+
+      <button onClick={handleMove}>DEAL</button>
     </div>
   );
 }

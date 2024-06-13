@@ -4,9 +4,10 @@ import styles from "./style.module.css";
 
 type CardProps = {
 	card: Card;
+	handleClick: () => void;
 };
 
-const CardComponent = ({ card }: CardProps) => {
+const CardComponent = ({ card, handleClick }: CardProps) => {
 	function renderIconRoute(suit: Suit): string {
 		switch (suit) {
 			case suits.CLUBS: {
@@ -24,7 +25,7 @@ const CardComponent = ({ card }: CardProps) => {
 		}
 	}
 	return (
-		<div className={styles.cardWrapper}>
+		<div className={styles.cardWrapper} onClick={handleClick}>
 			<Image
 				className={styles.suit}
 				src={renderIconRoute(card.suit)}

@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { drawCard, initalizeDeck, shuffleDeck } from "../game/cards";
 import { Hand } from "../types/game/card.types";
+import { useAppSelector } from "../state/store";
 
 const useCardManager = () => {
+  // get id stored from client websocket instance
+  const { id } = useAppSelector((state) => state.client);
+
+  console.log("id from useCardManager", id);
+
   const [deck, setDeck] = useState(shuffleDeck(initalizeDeck()));
 
   // dealer's cards

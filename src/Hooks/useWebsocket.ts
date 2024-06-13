@@ -1,10 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setClientId } from "../state/slices/clientSlice";
 
 /**
  * Sets up websocket connections and clean up
  */
 
 const useWebsocket = () => {
+  // persist websocket instance across re-renders
+  const wsRef = useRef<WebSocket | null>();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     // determine window scheme
     const protocol = window.location.protocol;
@@ -18,6 +24,8 @@ const useWebsocket = () => {
 
     const socket = new WebSocket(`${protocol}//${WEB_SOCKET_DOMAIN}`);
 
+    wsRef.current = socket;
+
     // opening connection to server
     socket.addEventListener("open", (event) => {});
 
@@ -29,11 +37,17 @@ const useWebsocket = () => {
 
         const message = JSON.parse(data);
 
-        if (message.id) {
+        const { id } = message;
+        if (id) {
           // store id
-          console.log("id was:", message.id);
+          dispatch(setClientId(id));
+
+          console.log("id was:", id);
         } else {
-          console.log("message:", message);
+          // get string from the message instead if id didn't exist
+          const jsonStringMsg = Buffer.from(data).toString("utf-8");
+
+          console.log("jsonStringMsg:", jsonStringMsg);
         }
       } catch (err) {
         console.log("Error when parsing message from server as json:", err);
@@ -42,9 +56,12 @@ const useWebsocket = () => {
 
     // clean up web socket listening
     return () => {
-      // socket.close();
+      socket.close();
     };
   }, []);
+
+  // return websocket instance
+  return { socket: wsRef };
 };
 
 export default useWebsocket;
