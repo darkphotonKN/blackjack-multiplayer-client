@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setClientId } from "../state/slices/clientSlice";
+import { setClientId, setClients } from "../state/slices/clientSlice";
 
 /**
  * Sets up websocket connections and clean up
@@ -33,21 +33,41 @@ const useWebsocket = () => {
     socket.addEventListener("message", ({ data }) => {
       try {
         console.log("Message from server ", data);
-        // attempt to store the id when first connection to the server
+        // check if data is a Blob
+        if (data instanceof Blob) {
+          // instantiate file reader
+          const reader = new FileReader();
 
-        const message = JSON.parse(data);
+          // use it to read the array buffer
+          reader.readAsText(data);
 
-        const { id } = message;
-        if (id) {
-          // store id
-          dispatch(setClientId(id));
+          reader.onloadend = () => {
+            // handle the data after loaded
+            const { result } = reader;
 
-          console.log("id was:", id);
+            const jsonRes = JSON.parse(result as string);
+            const arrayRes = Object.entries(jsonRes) as [string, string][];
+
+            console.log("Blob data:", result);
+            console.log("Blob data JSON:", jsonRes);
+            console.log("Blob data array:", arrayRes);
+
+            const clientData = arrayRes[0][1].includes("client");
+            if (clientData) {
+              dispatch(setClients(arrayRes));
+            }
+          };
         } else {
-          // get string from the message instead if id didn't exist
-          const jsonStringMsg = Buffer.from(data).toString("utf-8");
+          // attempt to store the id when first connection to the server
+          const message = JSON.parse(data); // only parse when data is not a blob
 
-          console.log("jsonStringMsg:", jsonStringMsg);
+          const { id } = message;
+          if (id) {
+            // store id
+            dispatch(setClientId(id));
+
+            console.log("id was:", id);
+          }
         }
       } catch (err) {
         console.log("Error when parsing message from server as json:", err);
@@ -61,7 +81,7 @@ const useWebsocket = () => {
   }, []);
 
   // return websocket instance
-  return { socket: wsRef };
+  return { socket: wsRef.current };
 };
 
 export default useWebsocket;

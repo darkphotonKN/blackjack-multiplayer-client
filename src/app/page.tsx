@@ -12,6 +12,11 @@ import { useAppSelector } from "../state/store";
 
 export default function Home() {
   const clientId = useAppSelector((state) => state.client).id;
+  // TODO: change the 4 player limit to real server's
+  const clients = useAppSelector((state) => state.client).clients.slice(0, 4);
+
+  console.log("Current clients are:", clients);
+
   const { socket } = useWebsocket(); // connect to websocket and set up clean up
   const { playersHand, dealerHand } = useCardManager();
 
@@ -63,7 +68,7 @@ export default function Home() {
 
       {/* players hand */}
       <div className={styles.playerArea}>
-        {playersHand?.map((playerHand, index) => (
+        {clients?.map((playerHand, index) => (
           <div key={index}>
             <div className={styles.titleWrapper}>
               <Image
@@ -76,7 +81,7 @@ export default function Home() {
                 PLAYER{" "}
                 {
                   romanNumeralMapping[
-                    (index + 1).toString() as keyof typeof romanNumeralMapping
+                  (index + 1).toString() as keyof typeof romanNumeralMapping
                   ]
                 }
               </div>
@@ -87,9 +92,12 @@ export default function Home() {
                 height="20"
               />
             </div>
+
             <div className={styles.cardArea}>
-              {playerHand &&
-                playerHand.map((card, index) => (
+              {/* TODO: sync players hand with client ids */}
+
+              {playersHand &&
+                playersHand[0].map((card, index) => (
                   <Card key={index} card={card} handleClick={handleMove} />
                 ))}
             </div>
