@@ -12,6 +12,7 @@ const useWebsocket = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("@useWebSocket lifecycle init");
     // determine window scheme
     const protocol = window.location.protocol;
 
@@ -52,10 +53,7 @@ const useWebsocket = () => {
             console.log("Blob data JSON:", jsonRes);
             console.log("Blob data array:", arrayRes);
 
-            const clientData = arrayRes[0][1].includes("client");
-            if (clientData) {
-              dispatch(setClients(arrayRes));
-            }
+            dispatch(setClients(arrayRes));
           };
         } else {
           // attempt to store the id when first connection to the server
@@ -76,6 +74,7 @@ const useWebsocket = () => {
 
     // clean up web socket listening
     return () => {
+      console.log("@useWebSocket lifecycle Cleaning up");
       socket.close();
     };
   }, []);

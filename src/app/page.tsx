@@ -68,8 +68,11 @@ export default function Home() {
 
       {/* players hand */}
       <div className={styles.playerArea}>
-        {clients?.map((playerHand, index) => (
-          <div key={index}>
+        {clients?.map((player, index) => (
+          <div
+            // className={player[0] === clientId ? `${styles.currentTurn}` : ""}
+            key={index}
+          >
             <div className={styles.titleWrapper}>
               <Image
                 src={"/images/simple-deco.png"}
@@ -77,7 +80,14 @@ export default function Home() {
                 width={40}
                 height="20"
               />
-              <div className={styles.playerTitle}>
+              {/* show current player if clientId matches */}
+              <div
+                className={
+                  player[0] === clientId
+                    ? styles.playerTitle + " " + styles.currentPlayer
+                    : styles.playerTitle
+                }
+              >
                 PLAYER{" "}
                 {
                   romanNumeralMapping[
@@ -105,7 +115,9 @@ export default function Home() {
         ))}
       </div>
 
-      <button onClick={handleMove}>DEAL</button>
+      <button className={styles.actionButton} onClick={handleMove}>
+        Deal
+      </button>
     </div>
   );
 }
