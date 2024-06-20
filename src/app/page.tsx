@@ -16,7 +16,6 @@ export default function Home() {
   const clients = useAppSelector((state) => state.client).clients.slice(0, 4);
 
   console.log("Current clients are:", clients);
-
   const { socket } = useWebsocket(); // connect to websocket and set up clean up
   const { playersHand, dealerHand } = useCardManager();
 
@@ -91,7 +90,7 @@ export default function Home() {
                 PLAYER{" "}
                 {
                   romanNumeralMapping[
-                  (index + 1).toString() as keyof typeof romanNumeralMapping
+                    (index + 1).toString() as keyof typeof romanNumeralMapping
                   ]
                 }
               </div>

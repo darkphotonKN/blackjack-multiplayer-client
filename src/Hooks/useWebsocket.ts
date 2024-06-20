@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setClientId, setClients } from "../state/slices/clientSlice";
+import { decodeMessage } from "../util/dataTransfer";
 
 /**
  * Sets up websocket connections and clean up
@@ -32,44 +33,25 @@ const useWebsocket = () => {
 
     // set up listening for the path "message"
     socket.addEventListener("message", ({ data }) => {
-      try {
-        console.log("Message from server ", data);
-        // check if data is a Blob
-        if (data instanceof Blob) {
-          // instantiate file reader
-          const reader = new FileReader();
+      console.log("Message from WS server:", data);
 
-          // use it to read the array buffer
-          reader.readAsText(data);
+      // handle the Game Message type messages which are all Buffers tranfered as a Blob
+      const arrayBuffer = data as ArrayBuffer;
+      const bufferGameMessage = Buffer.from(arrayBuffer);
 
-          reader.onloadend = () => {
-            // handle the data after loaded
-            const { result } = reader;
+      const {
+        clientId,
+        selectedMessageType,
+        selectedActionType,
+        selectedActionValue,
+      } = decodeMessage(bufferGameMessage);
 
-            const jsonRes = JSON.parse(result as string);
-            const arrayRes = Object.entries(jsonRes) as [string, string][];
-
-            console.log("Blob data:", result);
-            console.log("Blob data JSON:", jsonRes);
-            console.log("Blob data array:", arrayRes);
-
-            dispatch(setClients(arrayRes));
-          };
-        } else {
-          // attempt to store the id when first connection to the server
-          const message = JSON.parse(data); // only parse when data is not a blob
-
-          const { id } = message;
-          if (id) {
-            // store id
-            dispatch(setClientId(id));
-
-            console.log("id was:", id);
-          }
-        }
-      } catch (err) {
-        console.log("Error when parsing message from server as json:", err);
-      }
+      console.log("decoded Game Message:", {
+        clientId,
+        selectedMessageType,
+        selectedActionType,
+        selectedActionValue,
+      });
     });
 
     // clean up web socket listening
