@@ -33,8 +33,8 @@ export function encodeAction(
 export function decodeMessage(message: Buffer): GameMessageBundle {
   const clientIdLength = message[0];
   const clientId = message.subarray(1, clientIdLength + 1).toString();
-  const selectedMessageType = message[1 + clientIdLength + 1] as MessageType;
-  const selectedActionType = message[1 + clientIdLength + 1 + 1] as ActionType;
+  const selectedMessageType = message[1 + clientIdLength] as MessageType;
+  const selectedActionType = message[1 + clientIdLength + 1] as ActionType;
   const selectedActionValue = message
     .subarray(1 + clientIdLength + 1 + 1)
     .toString();

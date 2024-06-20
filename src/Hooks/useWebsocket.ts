@@ -36,22 +36,30 @@ const useWebsocket = () => {
       console.log("Message from WS server:", data);
 
       // handle the Game Message type messages which are all Buffers tranfered as a Blob
-      const arrayBuffer = data as ArrayBuffer;
-      const bufferGameMessage = Buffer.from(arrayBuffer);
+      if (data instanceof Blob) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const arrayBuffer = reader.result as ArrayBuffer;
+          const bufferGameMessage = Buffer.from(arrayBuffer);
 
-      const {
-        clientId,
-        selectedMessageType,
-        selectedActionType,
-        selectedActionValue,
-      } = decodeMessage(bufferGameMessage);
+          const {
+            clientId,
+            selectedMessageType,
+            selectedActionType,
+            selectedActionValue,
+          } = decodeMessage(bufferGameMessage);
 
-      console.log("decoded Game Message:", {
-        clientId,
-        selectedMessageType,
-        selectedActionType,
-        selectedActionValue,
-      });
+          console.log("decoded Game Message:", {
+            clientId,
+            selectedMessageType,
+            selectedActionType,
+            selectedActionValue,
+          });
+        };
+
+        // read ArrayBuffer with FileReader
+        reader.readAsArrayBuffer(data);
+      }
     });
 
     // clean up web socket listening
