@@ -7,7 +7,6 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { romanNumeralMapping } from "../data/mapping";
 import useWebsocket from "../hooks/useWebsocket";
-import { encodeAction } from "../util/dataTransfer";
 import { useAppSelector } from "../state/store";
 
 export default function Home() {
@@ -20,14 +19,10 @@ export default function Home() {
   const { playersHand, dealerHand } = useCardManager();
 
   function handleMove() {
-    const actionType = 0x03;
-    const actionData = "DEAL";
-
-    if (clientId && socket) {
+    if (socket) {
       // encode data into a Buffer before sending
-      const encodedData = encodeAction(clientId, actionType, actionData);
       // send to server via socket
-      socket?.send(encodedData);
+      socket.send("test");
     }
   }
 
@@ -90,7 +85,7 @@ export default function Home() {
                 PLAYER{" "}
                 {
                   romanNumeralMapping[
-                    (index + 1).toString() as keyof typeof romanNumeralMapping
+                  (index + 1).toString() as keyof typeof romanNumeralMapping
                   ]
                 }
               </div>
