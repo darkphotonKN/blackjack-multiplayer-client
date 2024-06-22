@@ -1,7 +1,11 @@
 import { Deck, Card, GameAction, GameState } from "./game/card.types";
 
 // type for handling list of connected clients
-export type Clients = Map<string, WebSocket>;
+export type Clients = string[];
+export type ClientInformation = {
+  clientId: string;
+  clientIdList: string[];
+};
 
 // message type - determines what type of ws message type
 export const messageType = {
@@ -52,5 +56,5 @@ export type GameMessageBundle = {
   clientId: string;
   selectedMessageType: MessageType;
   selectedActionType: ActionType;
-  selectedActionValue?: string | Deck | Card | Clients;
+  selectedActionValue?: string | Deck | Card | ClientInformation;
 };

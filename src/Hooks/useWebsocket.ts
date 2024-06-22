@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setClientId, setClients } from "../state/slices/clientSlice";
+import { setClientInformation } from "../state/slices/clientSlice";
 import { decodeMessage } from "../util/dataTransfer";
+import { clientsList } from "../types/message";
+import { isClientInformation } from "../util/typeGuards";
 
 /**
  * Sets up websocket connections and clean up
@@ -55,6 +57,18 @@ const useWebsocket = () => {
             selectedActionType,
             selectedActionValue,
           });
+
+          // depending on type of message, handle updating the app state
+          switch (selectedActionType) {
+            case clientsList.CLIENT_LIST: {
+              if (isClientInformation(selectedActionValue)) {
+                dispatch(setClientInformation(selectedActionValue));
+              }
+            }
+            default: {
+              break;
+            }
+          }
         };
 
         // read ArrayBuffer with FileReader

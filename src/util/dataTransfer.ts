@@ -1,6 +1,7 @@
 import { gameAction, gameState } from "../types/game/card.types";
 import {
   ActionType,
+  ClientInformation,
   Clients,
   GameMessageBundle,
   MessageType,
@@ -99,8 +100,8 @@ export function decodeMessage(message: Buffer): GameMessageBundle {
     case gameAction.DRAW_CARD:
     case gameState.INIT_GAME:
     case gameState.RESET_GAME: {
-      console.log("Type is to be parsed!!!");
       selectedActionValue = JSON.parse(actionBuffer.toString());
+      break;
     }
     // every other situation just revert the Buffer back to a string
     default: {
@@ -117,8 +118,8 @@ export function decodeMessage(message: Buffer): GameMessageBundle {
 }
 
 // encode list of clients into a buffer
-export function encodeClients(clients: Clients): Buffer {
-  const clientsJson = JSON.stringify(Object.fromEntries(clients));
-
-  return Buffer.from(clientsJson);
+// encode list of clients into a buffer
+export function encodeClientsInfo(clientsInfo: ClientInformation): Buffer {
+  const clientsJsonString = JSON.stringify(clientsInfo);
+  return Buffer.from(clientsJsonString, "utf8");
 }

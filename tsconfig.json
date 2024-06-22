@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "target": "esnext",
     "allowJs": true,
     "skipLibCheck": true,
@@ -11,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
@@ -19,7 +23,9 @@
       }
     ],
     "paths": {
-      "@/*": ["../blackjack-multiplayer-client/src/*"]
+      "@/*": [
+        "../blackjack-multiplayer-client/src/*"
+      ]
     }
   },
   "include": [
@@ -29,5 +35,7 @@
     "../blackjack-multiplayer-client/.next/types/**/*.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["../blackjack-multiplayer-client/node_modules"]
+  "exclude": [
+    "../blackjack-multiplayer-client/node_modules"
+  ]
 }

@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ClientInformation } from "../../types/message";
 
 type ClientState = {
   id: string | null;
-  clients: [string, string][];
+  clients: ClientInformation;
 };
 
 const initialState: ClientState = {
   id: null,
-  clients: [],
+  clients: {
+    clientId: "",
+    clientIdList: [],
+  },
 };
 
 const clientSlice = createSlice({
@@ -17,11 +21,11 @@ const clientSlice = createSlice({
     setClientId(state, action: PayloadAction<string>) {
       state.id = action.payload;
     },
-    setClients(state, action: PayloadAction<[string, string][]>) {
+    setClientInformation(state, action: PayloadAction<ClientInformation>) {
       state.clients = action.payload;
     },
   },
 });
 
-export const { setClientId, setClients } = clientSlice.actions;
+export const { setClientId, setClientInformation } = clientSlice.actions;
 export default clientSlice.reducer;

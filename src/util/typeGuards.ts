@@ -1,14 +1,15 @@
 // Custom Type Guards
 
-import { WebSocket } from "ws";
-import { Clients } from "../types/message";
+import { ClientInformation } from "../types/message";
 import { suits, values as cardValues, Card } from "../types/game/card.types";
 
 // check if the value passed in conforms to the "Clients" type
-export function isClients(value: any): value is Clients {
+export function isClientInformation(value: any): value is ClientInformation {
   return (
-    value instanceof Map &&
-    [...value.values()].every((item) => item instanceof WebSocket)
+    typeof value === "object" &&
+    typeof value.clientId === "string" &&
+    Array.isArray(value.clientIdList) &&
+    value.clientIdList.every((id: any) => typeof id === "string")
   );
 }
 

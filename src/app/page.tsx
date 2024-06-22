@@ -12,7 +12,9 @@ import { useAppSelector } from "../state/store";
 export default function Home() {
   const clientId = useAppSelector((state) => state.client).id;
   // TODO: change the 4 player limit to real server's
-  const clients = useAppSelector((state) => state.client).clients.slice(0, 4);
+  const clients = useAppSelector(
+    (state) => state.client,
+  ).clients.clientIdList.slice(0, 4);
 
   console.log("Current clients are:", clients);
   const { socket } = useWebsocket(); // connect to websocket and set up clean up
