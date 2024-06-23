@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { drawCard, initalizeDeck, shuffleDeck } from "../game/cards";
-import { Hand } from "../types/game/card.types";
+import { Hand } from "../types/game/card";
 import { useAppSelector } from "../state/store";
 
 const useCardManager = () => {

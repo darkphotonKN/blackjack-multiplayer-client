@@ -1,7 +1,7 @@
 // Custom Type Guards
 
 import { ClientInformation } from "../types/message";
-import { suits, values as cardValues, Card } from "../types/game/card.types";
+import { suits, values as cardValues, Card } from "../types/game/card";
 
 // check if the value passed in conforms to the "Clients" type
 export function isClientInformation(value: any): value is ClientInformation {

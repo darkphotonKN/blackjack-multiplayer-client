@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Card, Suit, suits } from "../../types/game/card.types";
+import { Card, Suit, suits } from "../../types/game/card";
 import styles from "./style.module.css";
 
 type CardProps = {

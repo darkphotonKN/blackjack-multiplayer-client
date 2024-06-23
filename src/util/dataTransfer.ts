@@ -1,4 +1,4 @@
-import { gameAction, gameState } from "../types/game/card.types";
+import { gameAction, gameState } from "../types/game";
 import {
   ActionType,
   ClientInformation,
@@ -7,7 +7,7 @@ import {
   MessageType,
   clientsList,
 } from "../types/message";
-import { isCard, isClients } from "./typeGuards";
+import { isCard, isClientInformation } from "./typeGuards";
 
 // encode message components into a single buffer
 export function encodeMessage(gameMessageBundle: GameMessageBundle): Buffer {
@@ -41,10 +41,9 @@ export function encodeMessage(gameMessageBundle: GameMessageBundle): Buffer {
     // Clients List Actions
     case clientsList.CLIENT_LIST: {
       // check that value passed in matches Clients type
-      if (isClients(selectedActionValue)) {
+      if (isClientInformation(selectedActionValue)) {
         console.log("encoding clients for browser-client");
-        // TODO: Currently sending client's WS object back - don't actually need to
-        actionValueBuffer = encodeClients(selectedActionValue);
+        actionValueBuffer = encodeClientsInfo(selectedActionValue);
       } else {
         throw new Error(
           "selectedActionValue is not the correct type 'Clients' when matching against the chosenActionType.",

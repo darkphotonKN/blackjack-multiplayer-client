@@ -4,6 +4,7 @@ import { setClientInformation } from "../state/slices/clientSlice";
 import { decodeMessage } from "../util/dataTransfer";
 import { clientsList } from "../types/message";
 import { isClientInformation } from "../util/typeGuards";
+import { gameState } from "../types/game";
 
 /**
  * Sets up websocket connections and clean up
@@ -60,10 +61,16 @@ const useWebsocket = () => {
 
           // depending on type of message, handle updating the app state
           switch (selectedActionType) {
+            // handle list of clients in current room
             case clientsList.CLIENT_LIST: {
               if (isClientInformation(selectedActionValue)) {
                 dispatch(setClientInformation(selectedActionValue));
               }
+            }
+
+            // handles the initialization of the deck
+            case gameState.INIT_GAME: {
+              // recieves the inital deck to start game with, this client initializes the game board with it
             }
             default: {
               break;

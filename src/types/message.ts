@@ -1,4 +1,5 @@
-import { Deck, Card, GameAction, GameState } from "./game/card.types";
+import { GameAction, GameState } from "./game";
+import { Deck, Card } from "./game/card";
 
 // type for handling list of connected clients
 export type Clients = string[];

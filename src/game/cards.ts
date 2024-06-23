@@ -1,4 +1,4 @@
-import { Card, Deck, Hand, values, suits } from "@/types/game/card.types";
+import { Card, Deck, Hand, values, suits } from "../types/game/card";
 
 // initialize deck
 export function initalizeDeck(): Deck {

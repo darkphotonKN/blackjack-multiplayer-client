@@ -2,11 +2,13 @@
 import { TypedUseSelectorHook } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import clientReducer from "./slices/clientSlice";
+import gameReducer from "./slices/gameSlice";
 import { useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     client: clientReducer,
+    game: gameReducer,
   },
 });
 
